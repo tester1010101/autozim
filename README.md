@@ -14,7 +14,6 @@ The purpose of this tool/script is to automate the process of using zimit/browse
 - Don't be shy to fork/contribute to this project! Help is welcome.
 
 - Supports "UPDATING" of one .zim file, will add support for more in a future update.
+![start](https://github.com/user-attachments/assets/cccddfce-8bf9-41c2-8fae-977bd5141747)
 
-![start](https://github.com/user-attachments/assets/2960df0d-564c-465a-97d4-76a563ee135c)
-
-![end](https://github.com/user-attachments/assets/960f95d8-1984-45b9-baad-c798b1fed6c2)
+![end](https://github.com/user-attachments/assets/8341d002-353d-4bed-945e-1eaeeb6cdb92)
