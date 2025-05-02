@@ -19,7 +19,7 @@ sleep 1
 # Get-Content for fixed names list output
 $collection = (Get-ChildItem -Directory -Path "$wFolder" | Where-Object name -match "_").Name
 $collectionCount = $collection.Count
-$collectionName = $collection
+$collectionName = (Get-ChildItem -Directory -Path "$wFolder" | Where-Object name -match "_").Name
 
 Write-Host -ForegroundColor Yellow "collection = $collection"
 Write-Host -ForegroundColor Yellow "collectionName = $collectionName"
@@ -33,18 +33,23 @@ $var123 = pause
 # Initialize variable position in namelist
 [int]$i = "0"
 
+if ($collectionCount -eq "1")
+{
+    $it1 = "1"
+    $fixedcName = $collection
+}
+
 # Starts processing each folder
 foreach ($item in $collection)
 {
     $fixedcName = $null
-    $fixedcName = $collectionName[$i]
     $stopwatch = $null
     $stopwatch = [System.Diagnostics.Stopwatch]::StartNew()
 
 # Prepares WARCs cmdset to be ran    
     Write-Host -ForegroundColor Magenta "#### :: #### [ STARTING -> {2.} warc2zim enumeration ] #### :: ####"
 
-    Write-Host -ForegroundColor Green "[ $curDateLow ] :: Processing WARCs for project -> $fixedcName"
+    Write-Host -ForegroundColor Green "[ $curDateLow ] :: Processing WARCs..."
 
     $itemData = (ls -Directory "$wFolder\$fixedcName\collections").Name
     if (($itemData).Count -ge "2")
