@@ -17,12 +17,14 @@ Write-Host -ForegroundColor DarkMagenta "Output directory = [$wFolder]"
 sleep 1
 
 # Get-Content for fixed names list output
+$fixedcName = $null
 $collection = (Get-ChildItem -Directory -Path "$wFolder" | Where-Object name -match "_").Name
 $collectionCount = $collection.Count
 $collectionName = (Get-ChildItem -Directory -Path "$wFolder" | Where-Object name -match "_").Name
 
 Write-Host -ForegroundColor Yellow "collection = $collection"
 Write-Host -ForegroundColor Yellow "collectionName = $collectionName"
+Write-Host -ForegroundColor Yellow "collectionCount = #$collectionCount ITEM(S)"
 Write-Host -ForegroundColor Yellow "Folder names OK?"
 
 Write-Host -ForegroundColor Red ">>> WARNING --> WILL DELETE BOOKMARK/NAME TEXTFILES, DO NOT CONTINUE & EXIT/BACKUP NOW IF NEEDED!"
@@ -37,12 +39,22 @@ if ($collectionCount -eq "1")
 {
     $it1 = "1"
     $fixedcName = $collection
+    Write-Host -ForegroundColor Cyan "Count = 1 ----------------"
+    Write-Host -ForegroundColor Yellow "collection = $collection"
+    Write-Host -ForegroundColor Yellow "fixedcName = $fixedcName"
+
 }
 
 # Starts processing each folder
 foreach ($item in $collection)
 {
-    $fixedcName = $null
+    if ($it1 -ne "1")
+    {
+        $fixedcName = $collectionName[$i]
+        Write-Host -ForegroundColor Cyan "Count = 2+ ----------------"
+        Write-Host -ForegroundColor Yellow "collectionName[i] = fixedcName = $collectionName[$i] = $fixedcName"
+        Write-Host -ForegroundColor Yellow "fixedcName = $fixedcName"
+    }
     $stopwatch = $null
     $stopwatch = [System.Diagnostics.Stopwatch]::StartNew()
 
