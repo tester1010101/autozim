@@ -178,20 +178,20 @@ foreach ($item in $collection)
     $dexF = ($dexFC -replace "###########", "")
 
     $dCMD = @("run", `
-                        "-v $wFolder\$itemname2`:/crawls", `
-                        "--memory=`"1g`"", `
-                        "--memory-swap=`"1g`"", `
+                        " -v $wFolder\$itemname2`:/crawls", `
+                        " --memory=`"1g`"", `
+                        " --memory-swap=`"1g`" ", `
                         "docker.io/webrecorder/browsertrix-crawler:1.3.5 crawl", `
-                        "--name $itemname2", `
-                        "--url $item", `
-                        "--scopeType $scopeType1", `
-                        "--depth -1", `
-                        "--extrahops 1", `
-                        "--timeout 10000", `
-                        "--waitUntil load,networkidle2", `
-                        "--postLoadDelay 2", `
-                        "--pageExtraDelay 1", `
-                        "--workers 6", `
+                        " --name $itemname2", `
+                        " --url $item", `
+                        " --scopeType $scopeType1", `
+                        " --depth -1 ", `
+                        "--extrahops 1 ", `
+                        "--timeout 10000 ", `
+                        "--waitUntil load,networkidle2 ", `
+                        "--postLoadDelay 2 ", `
+                        "--pageExtraDelay 1 ", `
+                        "--workers 6 ", `
                         "$dexF", `
                         " --keep ", `
                         "--verbose ", `
