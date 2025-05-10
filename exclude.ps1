@@ -44,7 +44,7 @@ foreach ($item in $collection)
 }
 
 
-$excludeF | out-file -encoding utf8 -filepath ./excludeFilter_import.txt
+$excludeF | out-file -encoding utf8 -filepath $wFolder/excludeFilter_import.txt
 # [array]$excludeF += "    `"action=history`", ``"
 #
 #    $diF = @(
