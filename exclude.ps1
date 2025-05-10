@@ -1,4 +1,6 @@
-﻿#####################################################################
+# BROKEN, will fix when I get home
+ 
+ #####################################################################
 # Generate filters structure to exclude stuff from being crawled
 
 Write-Host -ForegroundColor Magenta "#### :: #### [ STARTING ] #### :: ####"
