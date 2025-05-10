@@ -31,10 +31,10 @@ else
 sleep 1
 
 $string = $null
-$string2 = $null
+$excludeF = $null
 
 
-[array]$excludeF = @("`$diF = @(`"--exclude=```"(`", ``")
+[array]$excludeF = @("`$dexF = @(`"--exclude=```"(`", ``")
 
 foreach ($item in $collection)
 {
