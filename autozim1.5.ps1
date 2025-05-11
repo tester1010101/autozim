@@ -144,11 +144,32 @@ foreach ($item in $collection)
         $fullNames  | out-file -encoding utf8 $wFolder\bs.txt -Append
     }
 
+    $diF = $null
+    $diFC = $null
     $dexF = $null
     $dexFC = $null
     $dockerCMD = $null
     $dCMD = $null
     $dCM = $null
+
+    $diF = @("--include=`"(", `
+        ".gif", `
+        "|.webp", `
+        "|.ico", `
+        "|.shtml", `
+        "|.html", `
+        "|.asp", `
+        "|.jpg", `
+        "|.php", `
+        "|.js", `
+        "|.css", `
+        "|.png", `
+        "|.jpeg", `
+        "|all\?p=[\d\d\d\d]", `
+        "|encyclopedia\/[\d\d\d\d\d\d])+/gi`"")
+
+    $diFC = ($diF -join "###########")
+    $diF = ($diFC -replace "###########", "")
 
     $dexF = @("--exclude=`"(", `
         "memberlist.php\?", `
@@ -201,7 +222,7 @@ foreach ($item in $collection)
         "|youtube.com", `
         "|x.com", `
         "|\?diff", `
-        "|redirect=)+/i`"")
+        "|redirect=)+/gi`"")
 
     $dexFC = ($dexF -join "###########")
     $dexF = ($dexFC -replace "###########", "")
@@ -215,12 +236,13 @@ foreach ($item in $collection)
                         " --url $item", `
                         " --scopeType $scopeType1", `
                         " --depth -1 ", `
-                        "--extrahops 1 ", `
+                        "--extrahops 5 ", `
                         "--timeout 10000 ", `
                         "--waitUntil load,networkidle2 ", `
                         "--postLoadDelay 2 ", `
                         "--pageExtraDelay 1 ", `
                         "--workers 6 ", `
+                        "$diF", `
                         "$dexF", `
                         " --keep ", `
                         "--verbose ", `
