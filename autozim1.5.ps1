@@ -201,7 +201,7 @@ foreach ($item in $collection)
         "|youtube.com", `
         "|x.com", `
         "|\?diff", `
-        "|redirect=)`"")
+        "|redirect=)+/i`"")
 
     $dexFC = ($dexF -join "###########")
     $dexF = ($dexFC -replace "###########", "")
@@ -273,10 +273,26 @@ Write-Host -ForegroundColor Magenta "#### :: #### [ STARTING -> {3.} webcrawler 
 $stopwatch_p2 = [System.Diagnostics.Stopwatch]::StartNew()
 $collection = $null
 $item = $null
+$warc1 = $null
 
 # Get-Content for all bookmarks/links in the bkm.txt
 $collection = (Get-Content -Path "$wFolder\bookm2.txt")
-$collectionCount = $collection.Length
+$collectionCount = $collection.Count
+
+if ($collectionCount -eq 0)
+{
+    Write-Host -ForegroundColor Red "colCount = 0 ... (fix WARC download/output) exiting..."
+    sleep 1
+    pause
+    exit
+}elseif($collectionCount = 1)
+{
+    Write-Host -ForegroundColor Yellow "Only 1 website to process, continuing..."
+    [bool]$warc1 = $true
+}else
+{
+    Write-Host "Processing 2+ websites..."
+}
 
 # Get-Content for fixed names list output
 $collectionName = (Get-Content -Path "$wFolder\bookn1.txt")
@@ -289,6 +305,12 @@ foreach ($item in $collection)
 {
     $fixedcName = $null
     $fixedcName = $collectionName[$i]
+
+    if ($warc1 -eq $true)
+    {
+        $fixedcName = $collectionName
+    }
+
     $stopwatch = $null
     $stopwatch = [System.Diagnostics.Stopwatch]::StartNew()
     $curDateLow = $null
