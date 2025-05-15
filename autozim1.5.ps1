@@ -144,55 +144,14 @@ foreach ($item in $collection)
         $fullNames  | out-file -encoding utf8 $wFolder\bs.txt -Append
     }
 
-    $diF = $null
-    $diFC = $null
     $dexF = $null
     $dexFC = $null
     $dockerCMD = $null
     $dCMD = $null
     $dCM = $null
 
-    $diF = @("--include=`"(", `
-        ".gif", `
-        "|.webp", `
-        "|.ico", `
-        "|.shtml", `
-        "|.html", `
-        "|.asp", `
-        "|.jpg", `
-        "|.php", `
-        "|.js", `
-        "|.css", `
-        "|.png", `
-        "|.jpeg", `
-        "|all\?p=[\d\d\d\d]", `
-        "|encyclopedia\/[\d\d\d\d\d\d])+/gi`"")
-
-    $diFC = ($diF -join "###########")
-    $diF = ($diFC -replace "###########", "")
-
     $dexF = @("--exclude=`"(", `
         "memberlist.php\?", `
-        "|:Articles_lacking_files", `
-        "|:Image_Alteration", `
-        "|:Image_Requests", `
-        "|:Image_Retrieval", `
-        "|index.php\?title=Special:Search&search", `
-        "|veaction=edit", `
-        "|action=edit", `
-        "|action=info", `
-        "|action=purge", `
-        "|action=history", `
-        "|action=pagevalues", `
-        "|&oldid=", `
-        "|Talk:", `
-        "|Talk_pages", `
-        "|User:", `
-        "|User_talk:", `
-        "|User_blog", `
-        "|silver_surfer.html", `
-        "|index.html\?query", `
-        "|index.php\?search=", `
         "|Special:Search", `
         "|Special:Random", `
         "|Special:AllPages", `
@@ -211,38 +170,31 @@ foreach ($item in $collection)
         "|Special:ListFiles", `
         "|Special:AbuseLog", `
         "|Special:Log", `
-        "|mailto:", `
-        "|javascript:print", `
-        "|javascript:window.print", `
-        "|javascript:print", `
         "|.com\/process", `
         "|instagram.com", `
         "|facebook.com", `
         "|twitter.com", `
         "|youtube.com", `
-        "|x.com", `
-        "|\?diff", `
-        "|redirect=)+/gi`"")
+        "|x.com)+/gi`"")
 
     $dexFC = ($dexF -join "###########")
     $dexF = ($dexFC -replace "###########", "")
 
     $dCMD = @("run", `
                         " -v $wFolder\$itemname2`:/crawls", `
-                        " --memory=`"1g`"", `
-                        " --memory-swap=`"1g`" ", `
+                        " --memory=`"4g`"", `
+                        " --memory-swap=`"4g`" ", `
                         "docker.io/webrecorder/browsertrix-crawler:1.3.5 crawl", `
                         " --name $itemname2", `
                         " --url $item", `
                         " --scopeType $scopeType1", `
                         " --depth -1 ", `
-                        "--extrahops 5 ", `
+                        "--extrahops 4 ", `
                         "--timeout 10000 ", `
                         "--waitUntil load,networkidle2 ", `
                         "--postLoadDelay 2 ", `
                         "--pageExtraDelay 1 ", `
-                        "--workers 6 ", `
-                        "$diF", `
+                        "--workers 16 ", `
                         "$dexF", `
                         " --keep ", `
                         "--verbose ", `
@@ -295,10 +247,9 @@ Write-Host -ForegroundColor Magenta "#### :: #### [ STARTING -> {3.} webcrawler 
 $stopwatch_p2 = [System.Diagnostics.Stopwatch]::StartNew()
 $collection = $null
 $item = $null
-$warc1 = $null
 
 # Get-Content for all bookmarks/links in the bkm.txt
-$collection = (Get-Content -Path "$wFolder\bookm2.txt")
+$collection = (Get-Content -Path "$wFolder\bookn1.txt")
 $collectionCount = $collection.Count
 
 if ($collectionCount -eq 0)
@@ -307,7 +258,11 @@ if ($collectionCount -eq 0)
     sleep 1
     pause
     exit
-}elseif($collectionCount = 1)
+}
+
+[bool]$warc1 = $false
+
+if($collectionCount -eq 1)
 {
     Write-Host -ForegroundColor Yellow "Only 1 website to process, continuing..."
     [bool]$warc1 = $true
@@ -321,6 +276,8 @@ $collectionName = (Get-Content -Path "$wFolder\bookn1.txt")
 
 # Initialize variable position in namelist
 [int]$i = "0"
+
+$collection = (Get-Content -Path "$wFolder\bookm2.txt")
 
 # Starts processing each line
 foreach ($item in $collection)
